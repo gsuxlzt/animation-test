@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :style="{'--width': `${sliderWidth}px`}">
         <button @click="animate">Click</button>
         <div class="slider--container">
             <ul class="slider--grid" ref="sliderContainer" :style="{'--width': `${sliderWidth}px`, 'left': `${leftValue}px`}" >
@@ -39,18 +39,16 @@ export default {
                 });
 
             this.leftValue = this.leftValue + (this.sliderWidth * random * -1);
-            const shouldCycle = this.currentX > this.length -1 || this.currentX === 0;
+            const shouldCycle = this.currentX > this.length || this.currentX === 0;
             if (shouldCycle) {
                 switch(true) {
-                    case this.currentX > this.length - 1:
-                        console.log('test1')
+                    case this.currentX > this.length:
                         this.leftValue = 0;
                         this.currentX = 1;
                         break;
                     case this.currentX === 0:
-                        console.log('test');
-                        this.leftValue = this.sliderWidth * -1 * this.length;
-                        this.currentX = this.length - 1;
+                        this.leftValue = this.sliderWidth * -1 * (this.length);
+                        this.currentX = this.length;
                         break;
                 }
            }
@@ -84,7 +82,8 @@ export default {
 <style lang="scss" scoped>
 .slider--container {
     position: relative;
-    width: 100%;
+    width: calc(var(--width) * 3);
+    margin: 0 auto;
     overflow: hidden;
     height: 200px;
     border: 1px dotted black;
